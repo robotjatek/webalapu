@@ -1,0 +1,127 @@
+<% include SubTemplates/header.ejs %>
+
+<div>
+    <% if(typeof(s_username) != 'undefined') {  %>
+    <form class="form-horizontal" role="form" name="ad_form" id ="ad_form" data-form="ad_form">
+    <fieldset>
+        <legend>Hirdetés feladása</legend>
+        <div class="form-group">
+        <label class="control-label col-sm-2">Hirdetés Címe:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="title_input" name="title_input" type="text" required/>
+            </div>
+        </div>
+        <div class="form-group">
+        <label class="control-label col-sm-2">Hirdetés Leírása: </label>
+            <div class="col-sm-6">
+                <input class="form-control" name="desc_input" id="desc_input" type="textarea" required/>
+            </div>
+        </div>
+
+        <legend>Autó adatai</legend>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Márka</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="brand_input" id="brand_input" type="text" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Típus</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="type_input" id="type_input" type="text" required />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Futott kilométer</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="mileage_input" id="mileage_input" type="number" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Évjárat </label>
+            <div class="col-sm-6">
+                <input class="form-control" name="year_input" id="year_input" type="number" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Ccm </label>
+            <div class="col-sm-6">
+                <input class="form-control" name="ccm_input" id="ccm_input" type="number" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Ár </label>
+            <div class="controls col-sm-6">
+                <input class="form-control" name="price_input" id="price_input" type="number" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Üzemanyag típusa</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="fuel_input" id="fuel_input">
+                    <option value="benzin">Benzin</option>
+                    <option value="diesel">Dízel</option>
+                    <option value="lpg">LPG</option>
+                    <option value="cng">CNG</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="etanol">Etanol</option>
+                    <option value="elektro">Elektromotor</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Kép 1 </label>
+            <div class="controls col-sm-6">
+                <input placeholder="Felirat" class="form-control" name="picture1Title" type="text"  />
+            </div>
+            <div class="controls col-sm-4">
+                <input class="btn btn-default" name="picture1" type="file" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Kép 2</label>
+            <div class="controls col-sm-6">
+                <input placeholder="Felirat" class="form-control" name="picture2Title" type="text"  />
+            </div>
+            <div class="controls col-sm-4">
+                <input class="btn btn-default" name="picture2" type="file" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Kép 3</label>
+            <div class="controls col-sm-6">
+                <input placeholder="Felirat" class="form-control" name="picture3Title" type="text"  />
+            </div>
+            <div class="controls col-sm-4">
+                <input class="btn btn-default" name="picture3" type="file" />
+            </div>
+        </div>
+
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <button class="btn btn-success" data-button="add_btn" type="submit" name="add_btn">OK</button>
+        </div>
+        </div>
+    </fieldset>
+    </form>
+
+    <% } else {%>
+        <div class="alert alert-danger">Kérem jelentkezzen be</div>
+    <% }%>
+</div>
+
+<script src="/public/javascripts/_lib/jquery-2.1.1.min.js"></script>
+<script src="/public/javascripts/newAdv.js"></script>
+
+<% include SubTemplates/footer.ejs %>

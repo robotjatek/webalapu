@@ -1,0 +1,174 @@
+<% include SubTemplates/header.ejs %>
+
+<div>
+    <% if(typeof(s_username) != 'undefined') {  %>
+    <% if(s_userid == car.uid ) {  %>
+    <form class="form-horizontal" role="form" name="ad_form" id="ad_form" data-form="ad_form">
+        <fieldset>
+            <legend>Hirdetés módosítása</legend>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Hirdetés Címe:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="title_input" name="title_input" type="text" value="<%= car.title %>" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Hirdetés Leírása: </label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="desc_input" id="desc_input" type="textarea" value="<%= car.description %>" required />
+                </div>
+            </div>
+
+            <legend>Autó adatai</legend>
+
+            <input name="car_id" id="car_id" type="text" value="<%= car.id %>" hidden="hidden" />
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Márka</label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="brand_input" id="brand_input" type="text" value="<%= car.brand %>" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Típus</label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="type_input" id="type_input" type="text" value="<%= car.type %>" required />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Futott kilométer</label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="mileage_input" id="mileage_input" type="number" value="<%= car.mileage %>" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Évjárat </label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="year_input" id="year_input" type="number" value="<%= car.year %>" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ccm </label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="ccm_input" id="ccm_input" type="number" value="<%= car.ccm %>" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ár </label>
+                <div class="controls col-sm-6">
+                    <input class="form-control" name="price_input" id="price_input" type="number" value="<%= car.price %>" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Üzemanyag típusa</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="fuel_input" id="fuel_input">
+                        <option value="benzin" <% if (car.fuel_type == 'benzin'){%> selected <%}%> >Benzin</option>
+                        <option value="diesel" <% if (car.fuel_type == 'diesel'){%> selected <%}%>>Dízel</option>
+                        <option value="lpg" <% if (car.fuel_type == 'lpg'){%> selected <%}%>>LPG</option>
+                        <option value="cng" <% if (car.fuel_type == 'cng'){%> selected <%}%>>CNG</option>
+                        <option value="hybrid" <% if (car.fuel_type == 'hybrid'){%> selected <%}%>>Hybrid</option>
+                        <option value="etanol" <% if (car.fuel_type == 'etanol'){%> selected <%}%>>Etanol</option>
+                        <option value="elektro" <% if (car.fuel_type == 'elektro'){%> selected <%}%>>Elektromotor</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Kép 1 </label>
+                <div class="controls col-sm-3">
+                    <% if (picture[0] ){ %>
+                    <input id="picture1Id" name="picture1Id" type="text" value="<%= picture[0].id %>" hidden="hidden" />
+                    <% if( picture[0].extension != "" ) {  %>
+                    <a href="/public/uploads/<%= picture[0].id %>.<%= picture[0].extension %>"><img width="250" src="/public/uploads/<%= picture[0].id %>.<%= picture[0].extension %>" /></a><br />
+                    <% } else { %>
+                    <a href="/public/uploads/<%= picture[0].id %>"><img width="250" src="/public/uploads/<%= picture[0].id %> " /></a><br />
+                    <% } %>
+                    <% } %>
+
+                </div>
+                <div class="controls col-sm-4">
+                    <% if (picture[0] ){ %>
+                    <input placeholder="Felirat" class="form-control" name="picture1Title" type="text" value="<%= picture[0].title %>" /><br />
+                    <% } else { %>
+                    <input placeholder="Felirat" class="form-control" name="picture1Title" type="text" /><br />
+                    <% } %>
+                    <input class="btn btn-default" name="picture1" type="file" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Kép 2 </label>
+                <div class="controls col-sm-3">
+                    <% if (picture[1] ){ %>
+                    <input id="picture2Id" name="picture2Id" type="text" value="<%= picture[1].id %>" hidden="hidden" />
+                    <% if( picture[1].extension != "" ) {  %>
+                    <a href="/public/uploads/<%= picture[1].id %>.<%= picture[1].extension %>"><img width="250" src="/public/uploads/<%= picture[1].id %>.<%= picture[1].extension %>" /></a><br />
+                    <% } else { %>
+                    <a href="/public/uploads/<%= picture[1].id %>"><img width="250" src="/public/uploads/<%= picture[1].id %> " /></a><br />
+                    <% } %>
+                    <% } %>
+
+                </div>
+                <div class="controls col-sm-4">
+                    <% if (picture[1] ){ %>
+                    <input placeholder="Felirat" class="form-control" name="picture2Title" type="text" value="<%= picture[1].title %>" /><br />
+                    <% } else { %>
+                    <input placeholder="Felirat" class="form-control" name="picture2Title" type="text" /><br />
+                    <% } %>
+                    <input class="btn btn-default" name="picture2" type="file" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Kép 3 </label>
+                <div class="controls col-sm-3">
+                    <% if (picture[2] ){ %>
+                    <input id="picture3Id" name="picture3Id" type="text" value="<%= picture[2].id %>" hidden="hidden" />
+                    <% if( picture[2].extension != "" ) {  %>
+                    <a href="/public/uploads/<%= picture[2].id %>.<%= picture[2].extension %>"><img width="250" src="/public/uploads/<%= picture[2].id %>.<%= picture[2].extension %>" /></a><br />
+                    <% } else { %>
+                    <a href="/public/uploads/<%= picture[2].id %>"><img width="250" src="/public/uploads/<%= picture[2].id %> " /></a><br />
+                    <% } %>
+                    <% } %>
+
+                </div>
+                <div class="controls col-sm-4">
+                    <% if (picture[2] ){ %>
+                    <input placeholder="Felirat" class="form-control" name="picture3Title" type="text" value="<%= picture[2].title %>" /><br />
+                    <% } else { %>
+                    <input placeholder="Felirat" class="form-control" name="picture3Title" type="text" /><br />
+                    <% } %>
+                    <input class="btn btn-default" name="picture3" type="file" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button class="btn btn-success" data-button="add_btn" type="submit" name="add_btn">OK</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <% } else {%>
+    <div class="alert alert-danger">Nincs jogosultsága ehhez a művelethez</div>
+    <% }%>
+    <% } else {%>
+    <div class="alert alert-danger">Kérem jelentkezzen be</div>
+    <% }%>
+</div>
+
+<script src="/public/javascripts/_lib/jquery-2.1.1.min.js"></script>
+<script src="/public/javascripts/editAdv.js"></script>
+
+<% include SubTemplates/footer.ejs %>

@@ -1,0 +1,83 @@
+
+<% include SubTemplates/header.ejs %>
+
+<% if (error==1) { %>
+	<div id="profil_error" class="alert alert-danger" role="alert">Nincs ilyen profil!</div> 
+<% } else {%>	
+<div>
+    <form class="form-horizontal" role="form" name="profile_form" id="profile_form">
+        <fieldset>
+            <legend>Profil</legend>
+
+     	
+		<div class="form-group">
+		<label class="control-label col-sm-2">Teljes név:</label>
+		<label class="control-label col-sm-2"><%= user.name %></label>
+	    </div>
+
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Felhasználónév:</label>
+		<label class="control-label col-sm-2"><%= user.username %></label>
+	    </div>
+
+		<% if (user.inactive== 0) { %>
+		
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Email:</label>
+		<label class="control-label col-sm-2"><%= user.email %></label>
+	    </div>
+
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Ország:</label>
+		<label class="control-label col-sm-2"><%= user.country %></label>
+	    </div>
+
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Cím:</label>
+		<label class="control-label col-sm-2"><%= user.address %></label>
+	    </div>
+		
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Telefon:</label>
+		<label class="control-label col-sm-2"><%= user.phone %></label>
+	    </div>
+			
+<% if (e_edit==true) { %>
+			<div class="form-group">
+                <div class="col-xs-12 col-md-6 col-lg-3">
+					<a class="btn btn-default" href="/edit-profile">Profil szerkesztése</a>
+				</div>
+				<div class="col-xs-12 col-md-6 col-lg-3">
+					<a class="btn btn-default" href="/process_delete" name="delete_btn">Profil törlése</a>
+				</div>
+            </div>
+			
+<% } %>	
+<% } %>		
+        </fieldset>
+    </form>
+</div>
+ 
+    <h3>Saját hirdetések:</h3>
+    <% if (cars.length) { %>
+		<div id="myCars">
+			<% cars.forEach(function(car){ %>
+			<div>
+                <% if( car.done == 0) { %>
+                    <h3><a href="/adv/<%= car.id %>"><%= car.title %></a></h3> <br />
+                <% } else { %>
+                    <h3 style="text-decoration:line-through;"><a href="/adv/<%= car.id %>"><%= car.title %></a></h3> <br />
+                <% } %>
+				<%= car.description %> <br />
+				<%= car.price %> Ft<br />
+			</div>
+			<% }) %>
+		</div>
+	<% } else { %>
+		<h5>Jelenleg nincsenek saját hirdetések.</h5>
+	<% } %>
+	
+	
+<% } %>	
+
+<% include SubTemplates/footer.ejs %>

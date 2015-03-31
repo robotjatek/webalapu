@@ -1,0 +1,95 @@
+<% include SubTemplates/header.ejs %>
+
+<% if (typeof(error) !== 'undefined') { %>
+<div class="alert alert-danger"><%= error %></div>
+<% } else { %>
+<div class="jumbotron">
+    <% if (car.done === 0) { %>
+    <h2><%= car.title %></h2>
+    <% } else { %>
+    <h2>Archív: <em><%= car.title %></em></h2>
+    <% } %>
+
+    <p><%= car.description %></p>
+    <p>Ár: <%= car.price %> Ft</p>
+    <p>Hirdető: <%= car.user.name %></p>
+    <p>Cím: <%= car.user.address %></p>
+    <p>Ország: <%= car.user.country %></p>
+
+    <input type="text" id="car_id" value="<%= car.id%>" hidden="hidden">
+
+    <table>
+        <tr>
+            <% if (picture[0] ){ %>
+            <td style="padding: 10px">
+
+                <% if( picture[0].extension != "" ) {  %>
+                <a href="/public/uploads/<%= picture[0].id %>.<%= picture[0].extension %>"><img width="250" src="/public/uploads/<%= picture[0].id %>.<%= picture[0].extension %>" /></a><br />
+                <% } else { %>
+                <a href="/public/uploads/<%= picture[0].id %>"><img width="250" src="/public/uploads/<%= picture[0].id %> " /></a><br />
+                <% } %>
+                <p align="center"><%= picture[0].title %></p>
+            </td>
+            <% } %>
+            <% if (picture[1] ){ %>
+            <td style="padding: 10px">
+                <% if( picture[1].extension != "" ) {  %>
+                <a href="/public/uploads/<%= picture[1].id %>.<%= picture[1].extension %>"><img width="250" src="/public/uploads/<%= picture[1].id %>.<%= picture[1].extension %>" /></a><br />
+                <% } else { %>
+                <a href="/public/uploads/<%= picture[1].id %>"><img width="250" src="/public/uploads/<%= picture[1].id %> " /></a><br />
+                <% } %>
+                <p align="center"><%= picture[1].title %></p>
+            </td>
+            <% } %>
+            <% if (picture[2] ){ %>
+            <td style="padding: 10px">
+                <% if( picture[2].extension != "" ) {  %>
+                <a href="/public/uploads/<%= picture[2].id %>.<%= picture[2].extension %>"><img width="250" src="/public/uploads/<%= picture[2].id %>.<%= picture[2].extension %>" /></a><br />
+                <% } else { %>
+                <a href="/public/uploads/<%= picture[2].id %>"><img width="250" src="/public/uploads/<%= picture[2].id %> " /></a><br />
+                <% } %>
+                <p align="center"><%= picture[2].title %></p>
+            </td>
+            <% } %>
+        </tr>
+    </table>
+
+</div>
+
+<div class="row adv_buttons">
+    <div class="col-xs-12 col-md-6 col-lg-3">
+        <a class="btn btn-default" href="/profile/<%= car.user.id %>">A hirdető profilja: <%= car.user.username %></a>
+    </div>
+
+    <% if (typeof (s_userid) !== 'undefined') { %>
+    <% if (s_userid == car.uid) { %>
+    <div class="col-xs-12 col-md-6 col-lg-3">
+        <a class="btn btn-default" href="/edit-adv/<%= car.id %>">Hirdetés szerkesztése</a>
+    </div>
+        <% if (car.done == 0) { %>
+            <div class="col-xs-12 col-md-6 col-lg-3">
+                <button class="btn btn-default" data-button="inactiveAdv" type="submit" name="add_btn">Hirdetés inaktívvá tétele</button>
+            </div>
+        <% } else { %>
+           <div class="col-xs-12 col-md-6 col-lg-3">
+                <button class="btn btn-default" data-button="activeAdv" type="submit" name="add_btn">Hirdetés aktívvá tétele</button>
+           </div>
+        <% } %>
+
+    <% } else { %>
+    <div class="col-xs-12 col-md-6 col-lg-3">
+        <a class="btn btn-default" href="/message/<%= car.id %>">Üzenet küldése a hirdetőnek</a>
+    </div>
+    <% } %>
+    <% } else { %>
+    <div class="col-xs-12 col-md-6 col-lg-3">
+        <a class="btn btn-default" href="/message/<%= car.id %>">Üzenet küldése a hirdetőnek</a>
+    </div>
+    <% } %>
+
+    <% } %>
+
+    <script src="/public/javascripts/_lib/jquery-2.1.1.min.js"></script>
+    <script src="/public/javascripts/viewAdv.js"></script>
+
+    <% include SubTemplates/footer.ejs %>

@@ -1,0 +1,20 @@
+<% include SubTemplates/header.ejs %>
+
+<% if (typeof(error) !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+<% } else { %>
+	<h1>Üzeneteim</h1>
+
+	<div>
+	<% for (var i = 0; i < result.length; i++) { %>
+		<% if (result[i].car && result[i].senders.length) { %>
+			<p><a href="/adv/<%= result[i].car.id %>"><%= result[i].car.title %></a></p>
+			<% for (var j = 0; j < result[i].senders.length; j++) { %>
+				<p style="padding-left: 50px"><a href="/message/<%= result[i].car.id %>/<%= result[i].senders[j].id %>"><%= result[i].senders[j].name %> (<%= result[i].senders[j].username %>)</a></p>
+			<% } %>
+		<% } %>
+	<% } %>
+	</div>
+<% } %>
+
+<% include SubTemplates/footer.ejs %>

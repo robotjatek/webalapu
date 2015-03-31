@@ -1,0 +1,31 @@
+{include file="SubTemplates/header.tpl"}	
+<div>
+    <form class="form-horizontal" role="form" name="message_form" method="post" action="./process_send.php">
+	<fieldset>
+	    <legend>Üzenet küldése</legend>
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Címzett</label>
+		<div class="col-sm-10">
+		    <input class="form-control" name="to_input" type="text" value="{$s_username|escape:'html'}" required/>
+		</div>
+	    </div>
+
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Téma</label>
+		<div class="col-sm-10">
+		    <input class="form-control" name="topic_input" type="text" value="{$s_topic|escape:'html'}"/>
+		</div>
+	    </div>
+
+	    <div class="form-group">
+		<label class="control-label col-sm-2">Üzenet</label>
+		<div class="col-sm-10">
+		    <textarea class="form-control" name="text_input" rows="5"></textarea>
+		</div>
+	    </div>
+
+	    <button class="btn btn-default" type="submit" name="send_btn">Küldés</button>
+	</fieldset>
+    </form>
+</div>
+{include file="SubTemplates/footer.tpl"}

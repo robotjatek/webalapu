@@ -1,0 +1,51 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-controls="navbar">
+		    <span class="sr-only">Toggle navigation</span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		</button>
+		<h:link class="navbar-brand" outcome="index" value="ProgSearch"></h:link>
+	    </div>
+	    <div id="navbar" class="collapse navbar-collapse">
+	<!--	<% if(typeof(s_username) == 'undefined'){ %>
+		<form class="navbar-form navbar-right" role="form" name="login_form" method="post" action="/process_login">
+		    <div class="form-group">
+			<input placeholder="Felhasználónév" name="user_input" type="text" />
+		    </div>
+		    <div class="form-group">
+			<input placeholder="Jelszó" name="pass_input" type="password" />
+		    </div>
+		    <button class="btn btn-success" type="submit" name="login_btn">Belépés</button>
+		</form>
+		<ul class="nav navbar-nav">
+		    <li><a href="/register">Regisztráció</a></li>
+		</ul>
+		<% } %>
+
+
+		<% if(typeof(s_username) != 'undefined') {  %> -->
+		<ul class="nav navbar-nav">
+		    <li><h:link outcome="newad" value="Hirdetés feladása"></h:link></li>
+		    <li><h:link outcome="index" value="Keresés"></h:link></li>
+		    <li><h:link outcome="message" value="Üzenetek"></h:link></li>
+		    <li><h:link outcome="profile" value="Profil megtekintése"></h:link></li>
+		    <li><h:link outcome="index" value="Kijelentkezés"></h:link></li>
+		</ul>
+		<!-- <% } %> -->
+	    </div><!--/.nav-collapse -->
+	</div>
+    </nav>
+   <!-- <% if(s_loginerr == 1) { %>
+    <div class="alert alert-danger" role="alert">Rossz felhasználónév, vagy jelszó</div>
+    <% } %> -->
+    
+</ui:composition >

@@ -1,0 +1,80 @@
+
+h1 {
+    margin-left: 10px;
+}
+
+.test-form {
+    width: 60%;
+    padding: 0 2%;
+}
+
+    .test-form > .form-group > label:nth-of-type(2) {
+        width: 30%;
+    }
+
+    .test-form > .form-group > input {
+        display: inline-block;
+        width: 69%;
+    }
+
+    .test-form > .radio-buttons {
+        margin-bottom: 15px;
+    }
+
+.response {
+    margin-top: 20px;
+    width: 60%;
+    padding: 0 2%;
+}
+
+.html-source {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 150px;
+    resize: both;
+    overflow: auto;
+}
+
+.note {
+    width: 60%;
+    padding: 0 2%;
+}
+
+    .note > .buttons {
+        float: right;
+    }
+
+    .note > .field {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        min-height: 300px;
+        width: 100%;
+        resize: both;
+        overflow: auto;
+    }
+
+.edit-note {
+    width: 60%;
+    padding: 0 2%;
+}
+
+    .edit-note > .buttons {
+        float: right;
+    }
+
+    .edit-note > textarea {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        min-height: 300px;
+        width: 100%;
+    }
+
+
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}

@@ -1,0 +1,33 @@
+<% include SubTemplates/header.ejs %>
+
+<% if (typeof(error) !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+<% } else { %>
+	<h1>Üzenet küldése</h1>
+	<h2><%= car.title %> <a href="/adv/<%= advID %>">Megtekint</a></h2>
+    <div class="container" style="padding-top: 10px">
+	<div class="form-horizontal">
+		<form role="form" name="login_form" method="post" action="<%= url %>">
+			<fieldset>
+				<div class="form-group">
+					<label class="control-label col-md-2">Üzenet</label>
+					<div class="col-md-10">               
+						<textarea class="form-control" name="text" style="height: 300px;"></textarea>
+					</div>
+				</div>
+				<div style="text-align: right;">
+					<input type="submit" class="btn btn-primary" value="Küldés" />
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<% for (var i = 0; i < messages.length; i++) { %>
+		<div>
+			<p><strong><%= messages[i].sender.name %></strong> (<a href="/profile/<%= messages[i].sender.id %>"><%= messages[i].sender.username %></a>) - <%= messages[i].datee %></p>
+			<p><%= messages[i].text %></p>
+		</div>
+	<% } %>
+<% } %>
+
+<% include SubTemplates/footer.ejs %>
