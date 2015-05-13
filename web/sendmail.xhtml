@@ -1,0 +1,47 @@
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+	<h:panelGroup rendered="#{mb.loggedIn}">
+
+	    <h:panelGroup rendered="#{wm.user_not_found == true}">
+		<div class="alert alert-danger" role="alert">Nincs ilyen felhasználó!</div>
+	    </h:panelGroup>
+
+	    <div>
+		<h:form class="form-horizontal" role="form" >
+		    <fieldset>
+			<legend>Üzenet küldése</legend>
+			<div class="form-group">
+			    <label class="control-label col-sm-2">Címzett</label>
+			    <div class="col-sm-10">
+				<h:inputText class="form-control" id="to_input" required="true" value="#{wm.recipient}"/>
+			    </div>
+			</div>
+
+			<div class="form-group">
+			    <label class="control-label col-sm-2">Téma</label>
+			    <div class="col-sm-10">
+				<h:inputText class="form-control" id="topic_input" required="true" value="#{wm.topic}"/>
+			    </div>
+			</div>
+
+			<div class="form-group">
+			    <label class="control-label col-sm-2">Üzenet</label>
+			    <div class="col-sm-10">
+				<h:inputTextarea class="form-control" id="text_input" required="true" value="#{wm.text}"/>  
+			    </div>
+			</div>
+			<h:commandButton class="btn btn-default" id="send_btn" type="submit" action="#{wm.sendMail(mb.loggedin)}" value="Küldés"/>
+		    </fieldset>
+		</h:form>
+	    </div>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{mb.loggedin == null}">
+	    <ui:decorate template="protected.xhtml" />
+	</h:panelGroup>
+    </ui:define>
+</ui:composition>

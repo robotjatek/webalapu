@@ -2,7 +2,9 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -16,36 +18,45 @@
 		<h:link class="navbar-brand" outcome="index" value="ProgSearch"></h:link>
 	    </div>
 	    <div id="navbar" class="collapse navbar-collapse">
-	<!--	<% if(typeof(s_username) == 'undefined'){ %>
-		<form class="navbar-form navbar-right" role="form" name="login_form" method="post" action="/process_login">
-		    <div class="form-group">
-			<input placeholder="Felhasználónév" name="user_input" type="text" />
-		    </div>
-		    <div class="form-group">
-			<input placeholder="Jelszó" name="pass_input" type="password" />
-		    </div>
-		    <button class="btn btn-success" type="submit" name="login_btn">Belépés</button>
-		</form>
-		<ul class="nav navbar-nav">
-		    <li><a href="/register">Regisztráció</a></li>
-		</ul>
-		<% } %>
 
+		<c:choose>
+		    <c:when test="#{mb.loggedin != null}">
+			<ul class="nav navbar-nav">
+			    <li><h:link outcome="newad" value="Hirdetés feladása"></h:link></li>
+			    <li><h:link outcome="index" value="Keresés"></h:link></li>
+			    <li><h:link outcome="mail" value="Üzenetek"></h:link></li>
+			    <li>
+				<h:outputLink value="profile.xhtml">
+				    Profil megtekintése
+				   <!-- <f:param name="id" value="#{mb.loggedin.id}"/> -->
+				</h:outputLink>
+			    </li>
+			    <li><h:link outcome="logout" value="Kijelentkezés"></h:link></li>
+			</ul>
+		    </c:when>
+		    <c:otherwise>
+			<h:form class="navbar-form navbar-right" role="form" >
+			    <div class="form-group">
+				<h:inputText a:placeholder="Felhasználónév" id="user_input" value="#{mb.inputUsername}" />
+			    </div>
+			    <div class="form-group">
+				<h:inputSecret a:placeholder="Jelszó" id="pass_input" value="#{mb.inputPassword}" />
+			    </div>
+			    <h:commandButton class="btn btn-success" type="submit" value="Belépés" action="#{mb.AuthUser}"/>
+			</h:form>
+			<ul class="nav navbar-nav">
+			    <li><h:link outcome="register" value="Regisztráció"></h:link></li>
+			</ul>
 
-		<% if(typeof(s_username) != 'undefined') {  %> -->
-		<ul class="nav navbar-nav">
-		    <li><h:link outcome="newad" value="Hirdetés feladása"></h:link></li>
-		    <li><h:link outcome="index" value="Keresés"></h:link></li>
-		    <li><h:link outcome="message" value="Üzenetek"></h:link></li>
-		    <li><h:link outcome="profile" value="Profil megtekintése"></h:link></li>
-		    <li><h:link outcome="index" value="Kijelentkezés"></h:link></li>
-		</ul>
-		<!-- <% } %> -->
+		    </c:otherwise>
+		</c:choose>
+
 	    </div><!--/.nav-collapse -->
 	</div>
     </nav>
-   <!-- <% if(s_loginerr == 1) { %>
-    <div class="alert alert-danger" role="alert">Rossz felhasználónév, vagy jelszó</div>
-    <% } %> -->
-    
+    <c:choose>
+	<c:when test="#{mb.loginError == true}">
+	    <div class="alert alert-danger" role="alert">Rossz felhasználónév, vagy jelszó</div>
+	</c:when>
+    </c:choose>
 </ui:composition >

@@ -1,0 +1,135 @@
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">	
+	
+	    <h:panelGroup rendered="#{projectBean.getRequested_project() != null}">
+		<div>
+		    <h:form class="form-horizontal" role="form" id ="ad_form">
+			<fieldset>
+			    <legend>Hirdetés adatai</legend>
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Projekt neve:</label>
+				<div class="col-sm-6">
+				    <h:inputText class="form-control" id="title_input" required="true" value="#{projectBean.requested_project.name}" readonly="true"/>
+				</div>
+			    </div>
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Projekt Leírása: </label>
+				<div class="col-sm-6">
+				    <h:inputTextarea class="form-control" id="desc_input" required="true" rows="15" value="#{projectBean.requested_project.details}" readonly="true"/>
+				</div>
+			    </div>
+
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Projekt kezdete: </label>
+				<div class="col-sm-6">
+				    <h:inputText class="form-control" id="start_input" required="true" value="#{projectBean.requested_project.startDate}" readonly="true"/>
+				</div>
+			    </div>
+
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Projekt vége: </label>
+				<div class="col-sm-6">
+				    <h:inputText class="form-control" id="end_input" required="true" value="#{projectBean.requested_project.endDate}" readonly="true"/>
+				</div>
+			    </div>
+
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Szükséges programozók: </label>
+				<div class="col-sm-6">
+				    <h:inputText class="form-control" id="needed_input" required="true" value="#{projectBean.requested_project.neededProgrammers}" readonly="true"/>
+				</div>
+			    </div>
+
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Bér: </label>
+				<div class="col-sm-6">
+				    <h:inputText class="form-control" id="price_input" required="true" value="#{projectBean.requested_project.price}" readonly="true"/>
+				</div>
+			    </div>
+
+			    <div class="form-group">
+				<label class="control-label col-sm-2">Hirdető: </label>
+				<div class="col-sm-6">
+				    <h:outputLink value="profile.xhtml">
+					<h:outputText value="#{projectBean.requested_project.userId.username}" />
+					<f:param name="id" value="#{projectBean.requested_project.userId.id}"></f:param>
+				    </h:outputLink>
+				</div>
+			    </div>
+			</fieldset>
+		    </h:form>
+		</div>
+		<h:panelGroup rendered="#{mb.loggedin != null and mb.loggedin.id != projectBean.requested_project.userId.id and !projectBean.isApplied(mb.loggedin,  projectBean.requested_project)}">
+		    <h:form>
+			<h:commandButton id="bt" class="btn btn-success" action="#{projectBean.JoinToProject(mb.loggedin, projectBean.sh.requested_project)}" value="Jelentkezés" type="submit" />
+		    </h:form>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{mb.loggedin == projectBean.requested_project.userId}">
+		    <h:outputText value="Jelentkezett felhasználók:" />
+		    <h:dataTable value="#{projectBean.requested_project.userProjectList}" var="p"
+				 styleClass="table table-responsive table-striped table-hover"
+				 >
+			<h:column>    				
+			    <f:facet name="header">Felhasználónév</f:facet>
+			    <h:outputLink value="profile.xhtml">
+				<h:outputText value="#{p.userId.username}" />
+				<f:param name="id" value="#{p.userId.id}"></f:param>
+			    </h:outputLink>
+
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Teljes név:</f:facet>    				
+				#{p.userId.lastName} #{p.userId.firstName}
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Státusz</f:facet>    				
+				#{p.accepted}
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Elfogad</f:facet>    				
+			    <h:form><h:commandButton class="btn btn-default" action="#{projectBean.setUserStatus(p, 1)}" value="Elfogad"/></h:form>
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Elutasít</f:facet>    				
+			    <h:form><h:commandButton class="btn btn-default" action="#{projectBean.setUserStatus(p, 2)}" value="Elutasít"/></h:form>
+			</h:column>
+		    </h:dataTable>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{mb.loggedin != null}">
+		    <div>
+			<h:form class="form-horizontal" role="form" >
+			    <fieldset>
+				<legend>Hozzászólás</legend>
+				<h:inputText  class="form-control" value="#{projectBean.commenttext}" /> <br />
+				<h:commandButton class="btn btn-default" action="#{projectBean.sendComment(mb.loggedin, projectBean.requested_project)}" value="Küld"/>
+			    </fieldset>
+			</h:form>
+		    </div>
+		</h:panelGroup>
+
+		<div>
+		    <ui:repeat value="#{projectBean.requested_project.commentList}" var="c">
+			<span>
+			    <h:outputLink value="profile.xhtml">
+				<h:outputText value="#{c.userId.username}" />
+				<f:param name="id" value="#{c.userId.id}"></f:param>
+			    </h:outputLink>
+			</span><br />
+			<span>#{c.date}</span><br />
+			<span>#{c.text}</span><br />
+		    </ui:repeat>
+		</div>
+	    </h:panelGroup>
+	    <h:panelGroup rendered="#{projectBean.getRequested_project() == null}">
+		<div id="adv_error" class="alert alert-danger" role="alert">Nincs ilyen hirdetés!</div> 
+	    </h:panelGroup>
+	
+    </ui:define>
+</ui:composition>

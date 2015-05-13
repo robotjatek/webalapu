@@ -3,7 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Controller;
 
+import EJBs.ProjectManager;
+import Model.Project;
+import java.io.Serializable;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -13,16 +19,17 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean
 @RequestScoped
-public class NewJSFManagedBean {
+public class IndexBean implements Serializable{
 
-    /**
-     * Creates a new instance of NewJSFManagedBean
-     */
-    public NewJSFManagedBean() {
+    @EJB
+    ProjectManager pm;
+
+    public IndexBean() {
     }
     
-    public String getName()
+    public List<Project> readAdList()
     {
-	return "faszarc";
+	return pm.getAllProjects();
     }
+
 }

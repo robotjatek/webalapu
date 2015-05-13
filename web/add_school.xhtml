@@ -1,0 +1,69 @@
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+
+	<h:panelGroup rendered="#{mb.loggedIn}">
+
+	    <h:form class="form-horizontal" role="form" id="school_form">
+		<fieldset>
+		    <legend>Szakmai tapasztalat hozzáadása</legend>		
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Iskola:</label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="name_input" required="true" value="#{addEducationBean.school}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Szak: </label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="field_input" required="true" value="#{addEducationBean.field}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Kezdés éve:</label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="start_input" required="true" value="#{addEducationBean.start}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Befejezés éve:</label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="end_input" required="true" value="#{addEducationBean.end}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Ország:</label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="country_input" required="true" value="#{addEducationBean.country}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<label class="control-label col-sm-2">Város: </label>
+			<div class="col-sm-10">
+			    <h:inputText class="form-control" id="city_input" required="true" value="#{addEducationBean.city}"/>
+			</div>
+		    </div>
+
+		    <div class="form-group">
+			<div class="col-sm-10">
+			    <h:commandButton class="btn btn-default" id="register_btn" type="submit" action="#{addEducationBean.addEducation()}" value="Ok"/>
+			</div>
+		    </div>
+		</fieldset>			
+	    </h:form>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{mb.loggedin == null}">
+	    <ui:decorate template="protected.xhtml" />
+	</h:panelGroup>
+    </ui:define>
+</ui:composition>

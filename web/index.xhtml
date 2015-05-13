@@ -1,24 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <h:head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta http-equiv="X-UA-Conpatible" content="IE=edge" />
-	<h:outputStylesheet name="bootstrap/css/bootstrap.min.css" />
-	<h:outputStylesheet name="bootstrap/css/bootstrap-theme.min.css" />	
-	<h:outputStylesheet name="style.css" />
-	<title>Demo Web</title>
-    </h:head> 
-    <h:body> 
-	<ui:include src="SubTemplates/header.xhtml" />
-	<div> <!-- /container -->
-	    <div class="jumbotron">
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			    </div>
-	</div> <!-- /container -->
-	<ui:include src="SubTemplates/footer.xhtml" /> 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" /> <!-- az outputscript csak helyi címre jó... -->
-	<h:outputScript name="bootstrap/js/bootstrap.min.js" />
-    </h:body> 
-</html>
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+	<div class="jumbotron">
+	    <h3>Hirdetések:</h3>
+	    <h:panelGroup rendered="#{indexBean.readAdList().size() >0}">
+		<div id="myCars" class="row">
+		    <ui:repeat value="#{indexBean.readAdList()}" var="item">
+			<div class="col-xs-12 col-sm-6 col-md-3">
+			    <h:panelGroup rendered="#{item.status == 0}">
+				<h3>
+				    <h:outputLink value="ad.xhtml">
+					<h:outputText value="#{item.name}" />
+					<f:param name="id" value="#{item.id}"></f:param>
+				    </h:outputLink>
+				</h3> <br />
+			    </h:panelGroup>
+			    <h:panelGroup rendered="#{item.status != 0}">
+				<h3 style="text-decoration:line-through;">
+				    <h:outputLink value="ad.xhtml">
+					<h:outputText value="#{item.name}" />
+					<f:param name="id" value="#{item.id}"></f:param>
+				    </h:outputLink></h3> <br />
+			    </h:panelGroup>
+			    #{item.price} Ft<br />
+			</div>
+		    </ui:repeat>
+		</div>
+	    </h:panelGroup>
+	    <h:panelGroup rendered="#{indexBean.readAdList().size()==0}">
+		<h5>Nincsenek hirdetések.</h5>
+	    </h:panelGroup> 
+	</div>
+    </ui:define>
+</ui:composition>
+
+<!--
+<c:choose>
+ <c:when test="#{mb.loggedIn}">
+		<div class="jumbotron">
+		    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+		    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+		    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+		    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+		    deserunt mollit anim id est laborum."
+		</div>
+	    </c:when>
+	    <c:otherwise>
+		<ui:decorate template="protected.xhtml" />
+	    </c:otherwise>
+	</c:choose>
+
+-->

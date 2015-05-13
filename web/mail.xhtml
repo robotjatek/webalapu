@@ -1,0 +1,59 @@
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+	<h:panelGroup rendered="#{mb.loggedIn}">
+	    <h:link class="btn btn-primary btn-lg" outcome="sendmail" value="Üzenet küldése"></h:link>
+
+	    <h3><span>Beérkezett üzenetek</span></h3>
+	    <table class="table table-striped table-hover">
+		<tr>
+		    <th>Név</th>		
+		    <th>Téma</th>
+		    <th>Dátum</th>
+		    <th>Olvas</th>
+		</tr>
+
+		<ui:repeat var="m" value="#{mailBean.getMessageListByRecipient(mb.loggedin)}">
+		    <tr>
+			<td>#{m.senderId.lastName} #{m.senderId.firstName}</td>
+			<td>#{m.topic}</td>
+			<td>#{m.date.toString()}</td>
+			<td><h:form><h:commandButton class="btn btn-default" action="#{mailBean.readMessage(m)}" value="Olvas"/></h:form></td>
+		    </tr>
+		    <h:outputLink value="message.xhtml">
+			<f:param name="id" value="#{m.id}"></f:param>
+		    </h:outputLink>
+		</ui:repeat>
+	    </table>
+	    <h3>Elküldött üzenetek</h3>
+	    <table class="table table-striped table-hover">
+		<tr>
+		    <th>Címzett</th>
+		    <th>Téma</th>
+		    <th>Dátum</th>
+		    <th>Olvas</th>
+		</tr>
+
+		<ui:repeat var="m" value="#{mailBean.getMessageListBySender(mb.loggedin)}">
+		    <tr>
+			<td>#{m.toId.lastName} #{m.toId.firstName}</td>
+			<td>#{m.topic}</td>
+			<td>#{m.date.toString()}</td>
+			<td><h:form><h:commandButton class="btn btn-default"  action="#{mailBean.readMessage(m)}" value="Olvas"/></h:form></td>
+		    </tr>
+		    <h:outputLink value="message.xhtml">
+
+			<f:param name="id" value="#{m.id}"></f:param>
+		    </h:outputLink>
+		</ui:repeat>
+	    </table>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{mb.loggedin == null}">
+	    <ui:decorate template="protected.xhtml" />
+	</h:panelGroup>
+    </ui:define>
+</ui:composition>

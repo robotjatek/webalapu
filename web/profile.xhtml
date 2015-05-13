@@ -1,83 +1,139 @@
+<ui:composition template="template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<% include SubTemplates/header.ejs %>
+    <ui:define name="content">
+	<h:panelGroup rendered="#{mb.loggedIn}">
 
-<% if (error==1) { %>
-	<div id="profil_error" class="alert alert-danger" role="alert">Nincs ilyen profil!</div> 
-<% } else {%>	
-<div>
-    <form class="form-horizontal" role="form" name="profile_form" id="profile_form">
-        <fieldset>
-            <legend>Profil</legend>
-
-     	
-		<div class="form-group">
-		<label class="control-label col-sm-2">Teljes név:</label>
-		<label class="control-label col-sm-2"><%= user.name %></label>
-	    </div>
-
-	    <div class="form-group">
-		<label class="control-label col-sm-2">Felhasználónév:</label>
-		<label class="control-label col-sm-2"><%= user.username %></label>
-	    </div>
-
-		<% if (user.inactive== 0) { %>
-		
-	    <div class="form-group">
-		<label class="control-label col-sm-2">Email:</label>
-		<label class="control-label col-sm-2"><%= user.email %></label>
-	    </div>
-
-	    <div class="form-group">
-		<label class="control-label col-sm-2">Ország:</label>
-		<label class="control-label col-sm-2"><%= user.country %></label>
-	    </div>
-
-	    <div class="form-group">
-		<label class="control-label col-sm-2">Cím:</label>
-		<label class="control-label col-sm-2"><%= user.address %></label>
-	    </div>
-		
-	    <div class="form-group">
-		<label class="control-label col-sm-2">Telefon:</label>
-		<label class="control-label col-sm-2"><%= user.phone %></label>
-	    </div>
-			
-<% if (e_edit==true) { %>
-			<div class="form-group">
-                <div class="col-xs-12 col-md-6 col-lg-3">
-					<a class="btn btn-default" href="/edit-profile">Profil szerkesztése</a>
+	    <h:panelGroup rendered="#{profileController.requested_user !=null}">
+		<div>
+		    <h:form class="form-horizontal" role="form" id="profile_form">
+			<fieldset>
+			    <legend>Személyes adatok</legend>
+			    <div class="jumbotron">
+				<div class="form-group">
+				    <label>Teljes név:</label>
+				    <label >#{profileController.requested_user.lastName} #{profileController.requested_user.firstName}</label>
 				</div>
-				<div class="col-xs-12 col-md-6 col-lg-3">
-					<a class="btn btn-default" href="/process_delete" name="delete_btn">Profil törlése</a>
+
+				<div class="form-group">
+				    <label>Felhasználónév:</label>
+				    <label>#{profileController.requested_user.username}</label>
 				</div>
-            </div>
-			
-<% } %>	
-<% } %>		
-        </fieldset>
-    </form>
-</div>
- 
-    <h3>Saját hirdetések:</h3>
-    <% if (cars.length) { %>
-		<div id="myCars">
-			<% cars.forEach(function(car){ %>
-			<div>
-                <% if( car.done == 0) { %>
-                    <h3><a href="/adv/<%= car.id %>"><%= car.title %></a></h3> <br />
-                <% } else { %>
-                    <h3 style="text-decoration:line-through;"><a href="/adv/<%= car.id %>"><%= car.title %></a></h3> <br />
-                <% } %>
-				<%= car.description %> <br />
-				<%= car.price %> Ft<br />
-			</div>
-			<% }) %>
+
+				<div class="form-group">
+				    <label>Email:</label>
+				    <label>#{profileController.requested_user.email}</label>
+				</div>
+
+				<div class="form-group">
+				    <label>Ország:</label>
+				    <label>#{profileController.requested_user.country}</label>
+				</div>
+
+				<div class="form-group">
+				    <label>Cím:</label>
+				    <label>#{profileController.requested_user.postalCode} #{profileController.requested_user.city} #{profileController.requested_user.street}</label>
+				</div>
+
+				<div class="form-group">
+				    <label>Telefon:</label>
+				    <label>#{profileController.requested_user.phone}</label>
+				</div>
+			    </div>
+			</fieldset>
+
+			<h:panelGroup rendered="#{mb.loggedin.id == profileController.requested_user.id}">
+			    <div class="form-group ">
+				<h:outputLink class="btn btn-default" value="/edit-profile">Profil szerkesztése</h:outputLink>
+				<h:outputLink class="btn btn-default" value="/process_delete">Profil törlése</h:outputLink>
+			    </div>
+			</h:panelGroup>
+		    </h:form>
 		</div>
-	<% } else { %>
-		<h5>Jelenleg nincsenek saját hirdetések.</h5>
-	<% } %>
-	
-	
-<% } %>	
+		<h2>Tanulmányok</h2>
+		<table class="table table-responsive table-striped table-hover">
+		    <ui:repeat var="sc" value="#{profileController.educationList}">
+			<tr>
+			    <td >#{sc.schoolName}</td>
+			    <td>#{sc.fieldOfStudy}</td>
+			    <td>#{sc.country}</td>
+			    <td>#{sc.city}</td>
+			    <td>#{sc.yearFrom} - #{sc.yearTo}</td>
+			    <h:panelGroup rendered="#{mb.loggedin.id == profileController.requested_user.id}">
+				<td><h:form><h:commandButton class="btn btn-default" action="#{profileController.delete_eduacation(sc)}" value="Töröl"/></h:form></td>
+			    </h:panelGroup>
+			</tr>
+		    </ui:repeat>
+		</table>
+		<h:panelGroup rendered="#{mb.loggedin.id == profileController.requested_user.id}">
+		    <h:link class="btn btn-default" outcome="/add_school.xhtml">Iskola hozzáadása</h:link>
+		</h:panelGroup>
 
-<% include SubTemplates/footer.ejs %>
+		<h2>Szakmai tapaszatalat</h2>
+		<table class="table table-responsive table-striped table-hover">
+		    <th>Cég</th>
+		    <th>Munkakör</th>
+		    <th>Idő</th>
+		    <th>Leírás</th>
+		    <th>Törlés</th>
+		    <ui:repeat var="el" value="#{profileController.experienceList}">
+			<tr>
+			    <td >#{el.company}</td>
+			    <td>#{el.jobTitle}</td>
+			    <td>#{el.dateFrom} - #{el.dateTo}</td>
+			    <td>#{el.description}</td>
+			    <h:panelGroup rendered="#{mb.loggedin.id == profileController.requested_user.id}">
+				<td><h:form><h:commandButton class="btn btn-default" action="#{profileController.delete_experience(el)}" value="Töröl"/></h:form></td>
+			    </h:panelGroup>
+
+			</tr>
+		    </ui:repeat>
+		</table>
+
+		<h:panelGroup rendered="#{mb.loggedin.id == profileController.requested_user.id}">
+		    <h:link class="btn btn-default" outcome="/add_experience.xhtml">Tapasztalat hozzáadása</h:link>
+		</h:panelGroup>
+
+		<h3>Hirdetések:</h3>
+
+		<h:panelGroup rendered="#{profileController.requested_user.projectList.size() >0}">
+		    <div id="myCars" class="row">
+			<ui:repeat value="#{profileController.requested_user.projectList}" var="item">
+			    <div class="col-xs-12 col-sm-6 col-md-3">
+				<h:panelGroup rendered="#{item.status == 0}">
+				    <h3>
+					<h:outputLink value="ad.xhtml">
+					    <h:outputText value="#{item.name}" />
+					    <f:param name="id" value="#{item.id}"></f:param>
+					</h:outputLink>
+				    </h3> <br />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{item.status != 0}">
+				    <h3 style="text-decoration:line-through;">
+					<h:outputLink value="ad.xhtml">
+					    <h:outputText value="#{item.name}" />
+					    <f:param name="id" value="#{item.id}"></f:param>
+					</h:outputLink></h3> <br />
+				</h:panelGroup>
+				#{item.price} Ft<br />
+			    </div>
+			</ui:repeat>
+		    </div>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{profileController.requested_user.projectList.size() == 0}">
+		    <h5>A felhasználónak nincsenek hirdetései.</h5>
+		</h:panelGroup> 
+	    </h:panelGroup>
+	    <h:panelGroup rendered="#{profileController.requested_user == null}">
+		<div id="profil_error" class="alert alert-danger" role="alert">Nincs ilyen profil!</div> 
+	    </h:panelGroup>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{mb.loggedin==null}">
+	    <ui:decorate template="protected.xhtml" />
+	</h:panelGroup>
+    </ui:define>
+</ui:composition>
