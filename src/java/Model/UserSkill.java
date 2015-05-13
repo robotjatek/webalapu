@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UserSkill.findAll", query = "SELECT u FROM UserSkill u"),
     @NamedQuery(name = "UserSkill.findById", query = "SELECT u FROM UserSkill u WHERE u.id = :id"),
-    @NamedQuery(name = "UserSkill.findByLevel", query = "SELECT u FROM UserSkill u WHERE u.level = :level")})
+    @NamedQuery(name = "UserSkill.findByLevel", query = "SELECT u FROM UserSkill u WHERE u.level = :level"),
+ @NamedQuery(name = "UserSkill.findByUser", query = "SELECT u FROM UserSkill u WHERE u.userId = :user_id")})
 public class UserSkill implements Serializable {
 
     private static final long serialVersionUID = 1L;

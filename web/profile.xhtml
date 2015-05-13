@@ -98,6 +98,49 @@
 		    <h:link class="btn btn-default" outcome="/add_experience.xhtml">Tapasztalat hozzáadása</h:link>
 		</h:panelGroup>
 
+		<h:panelGroup>
+		    <h3>Skillek</h3>
+		    <h:dataTable value="#{profileController.userSkillList}" var="sk"
+				 styleClass="table table-responsive table-striped table-hover"
+				 >
+			<h:column>    				
+			    <f:facet name="header">Skill</f:facet>
+				#{sk.skillId.name}
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Szint</f:facet>    				
+				#{sk.level}
+			</h:column>
+			<h:column>    				
+			    <f:facet name="header">Eltávolít</f:facet>    				
+			    <h:form><h:commandButton class="btn btn-default" action="#{profileController.delete_skill(sk)}" value="Eltávolít"/></h:form>
+			</h:column>
+		    </h:dataTable>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{mb.loggedin != null and mb.loggedin == profileController.requested_user}">
+		    <div>
+			<h:form class="form-horizontal" role="form" >
+			    <fieldset>
+				<legend>Skill hozzáadása:</legend>
+				<div class="form-group">
+				    <label class="control-label col-sm-2">Skill:</label>
+				    <div class="col-sm-6">
+					<h:inputText  class="form-control" value="#{profileController.skillstr}" />
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-sm-2">Szint:</label>
+				    <div class="col-sm-6">
+					<h:inputText  class="form-control" value="#{profileController.skilllvl}" />
+				    </div>
+				</div>
+				<h:commandButton class="btn btn-default" action="#{profileController.addSkill(mb.loggedin)}" value="Hozzáad"/>
+			    </fieldset>
+			</h:form>
+		    </div>
+		</h:panelGroup>
+
 		<h3>Hirdetések:</h3>
 
 		<h:panelGroup rendered="#{profileController.requested_user.projectList.size() >0}">
@@ -124,6 +167,7 @@
 			</ui:repeat>
 		    </div>
 		</h:panelGroup>
+
 		<h:panelGroup rendered="#{profileController.requested_user.projectList.size() == 0}">
 		    <h5>A felhasználónak nincsenek hirdetései.</h5>
 		</h:panelGroup> 

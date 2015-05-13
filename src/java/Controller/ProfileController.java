@@ -7,10 +7,13 @@ package Controller;
 
 import EJBs.EducationManager;
 import EJBs.ExperienceManager;
+import EJBs.SkillManager;
 import EJBs.UserManager;
 import Model.Education;
 import Model.Experience;
+import Model.Skill;
 import Model.User;
+import Model.UserSkill;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +40,31 @@ public class ProfileController implements Serializable{
 
     @EJB
     EducationManager edm;
+    
+    @EJB
+    SkillManager sm;
 
     @ManagedProperty(value = "#{mb}")
     MainController mc;
+    
+    String skillstr;
+    int skilllvl;
+
+    public String getSkillstr() {
+	return skillstr;
+    }
+
+    public void setSkillstr(String skillstr) {
+	this.skillstr = skillstr;
+    }
+
+    public int getSkilllvl() {
+	return skilllvl;
+    }
+
+    public void setSkilllvl(int skilllvl) {
+	this.skilllvl = skilllvl;
+    }
 
     public MainController getMc() {
 	return mc;
@@ -51,6 +76,38 @@ public class ProfileController implements Serializable{
 
     User requested_user = null;
 
+    public UserManager getUm() {
+	return um;
+    }
+
+    public void setUm(UserManager um) {
+	this.um = um;
+    }
+
+    public ExperienceManager getExm() {
+	return exm;
+    }
+
+    public void setExm(ExperienceManager exm) {
+	this.exm = exm;
+    }
+
+    public EducationManager getEdm() {
+	return edm;
+    }
+
+    public void setEdm(EducationManager edm) {
+	this.edm = edm;
+    }
+
+    public SkillManager getSm() {
+	return sm;
+    }
+
+    public void setSm(SkillManager sm) {
+	this.sm = sm;
+    }
+    
     /**
      * Creates a new instance of ProfileController
      */
@@ -87,8 +144,13 @@ public class ProfileController implements Serializable{
     }
 
     public void delete_eduacation(Education e) {
-
 	edm.deleteEducation(e);
+    }
+    
+    public void delete_skill(UserSkill us)
+    {
+	requested_user.getUserSkillList().remove(us);
+	sm.delete_user_skill(us);
     }
 
     public List<Experience> getExperienceList() {
@@ -98,4 +160,31 @@ public class ProfileController implements Serializable{
     public List<Education> getEducationList() {
 	return edm.getEducation(requested_user);
     }
+    
+    public List<UserSkill> getUserSkillList()
+    {
+	return sm.getUserSkillList(requested_user);
+    }
+    
+    public void addSkill(User u)
+    {
+	UserSkill us = new UserSkill();
+	us.setUserId(u);
+	us.setLevel(skilllvl);
+	Skill s = sm.getSkillByName(skillstr);
+	if(s != null)
+	{
+	    us.setSkillId(s);
+	}
+	else
+	{
+	    s = new Skill();
+	    s.setName(skillstr);
+	    sm.addSkill(s);
+	    us.setSkillId(s);
+	}
+	//u.getUserSkillList().add(us);
+	sm.addUserSkill(us);
+    }
+ 
 }
